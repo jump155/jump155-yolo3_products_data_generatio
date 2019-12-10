@@ -1,7 +1,11 @@
+
+import os
 from PIL import Image, ImageChops
+from torchvision import transforms
+import random
 
 from matplotlib import pyplot as plt
-from scipy import ndimage
+# from scipy import ndimage
 import numpy as np
 
 
@@ -12,9 +16,10 @@ def convert_to_rgb(img):
     :return:
     '''
     if img.mode != 'RGB':
-        background = Image.new('RGBA', img.size)
-        background.paste(img)
-        background = background.convert('RGB')
+        img.convert('RGBA')
+        background = Image.new('RGB', img.size, "WHITE")
+        background.paste(img, (0, 0), img)
+        # background = background.convert('RGB')
         return background
     return img
 
@@ -31,71 +36,75 @@ def trim(img):
     diff = ImageChops.difference(img, bg)
     bbox = diff.getbbox()
     img = img.crop(bbox)
-    # max_size = max(img.size)
-    # height, width = img.size
-    # if height > width:
-    #     pos = int((height - width) / 2)
-    #     new_img.paste(img, (0, pos))
-    # else:
-    #     pos = int((width - height) / 2)
-    #     new_img.paste(img, (pos, 0))
-
     return img
+
 
 #%%
 
-threshold = 250
+angle = 30
 
-img = Image.open("images_source/200767/504735_petrovich_11.jpg")
-np_im = np.array(img)
-np_im[np_im >= threshold] = 255
+obj_transforms = transforms.Compose([
+    transforms.RandomRotation(degrees=angle, expand=True),
+    transforms.RandomPerspective(  # Performs Perspective transformation randomly with a given probability
+        distortion_scale=0.5,      # controls the degree of distortion and ranges from 0 to 1
+        p=1                        # probability of the image being perspectively transformed
+    ),
+    transforms.RandomHorizontalFlip(),
+    transforms.ColorJitter(
+        brightness=0.2,  # 0.3
+        contrast=0.3,  #
+        saturation=0.3
+    )
+])
 
-
-img = Image.fromarray(np_im, 'RGB')
-img = img.rotate(15)
-
-# img = convert_to_rgb(img)
-img = trim(img)
-np_im = np.array(img)
-
-alpha = np.zeros(np_im.shape[:-1], dtype=np.uint8)
-
-
-mask = ((np_im == 255).sum(axis=2))
-
-alpha[mask < 3] = 255
-
-# alpha[]
-
-np_im = np.dstack((np_im, alpha))
-
-img = Image.fromarray(np_im, 'RGBA')
-
-img.save("test.png")
+bg_transforms = transforms.Compose([
+    transforms.RandomRotation(degrees=angle, expand=True),
+    transforms.RandomPerspective(  # Performs Perspective transformation randomly with a given probability
+        distortion_scale=0.5,       # controls the degree of distortion and ranges from 0 to 1
+        p=0.8                       # probability of the image being perspectively transformed
+    ),
+])
 
 
+def remove_bg(input_img):
+    threshold = 250
+
+    input_img = convert_to_rgb(input_img)
+
+    np_img = np.array(input_img)
+    np_img[np_img >= threshold] = 255
+
+    input_img = Image.fromarray(np_img, 'RGB')
+
+    np_img = np.array(input_img)
+
+    alpha = np.zeros(np_img.shape[:-1], dtype=np.uint8)
+    mask = ((np_img == 255).sum(axis=2))
+    alpha[mask < 3] = 255
+    np_img = np.dstack((np_img, alpha))
+
+    return Image.fromarray(np_img, 'RGBA')
 
 
+def transform(input_img):
+    input_img = convert_to_rgb(input_img)
 
-# img = np
-# plt.imshow(img)
+    input_img = remove_bg(input_img)
+    input_img = obj_transforms(input_img)
 
+    input_img = convert_to_rgb(input_img)
+    input_img = trim(input_img)
+    input_img = remove_bg(input_img)
 
-# def preprocess_image(self, img):
-#     '''
-#     Convert image to RGB and trim
-#     :param img:
-#     :return:
-#     '''
-#     rgb_img = convert_to_rgb(img)
-#     trim_img = trim(rgb_img)
-#     return trim_img
+    return input_img
 
 
-# if __name__ == '__main__':
-#     img = Image.open("images_source/200767/90026079_lmmarket_02.jpg")
-#     Image._show(img)
-#     img = convert_to_rgb(img)
-#     img = trim(img)
-#     Image._show(img)
+img = Image.open("images_source/200767/90060143_lmmarket_00.jpg")
 
+bg = Image.open("backgrounds/D2115_158_005_1200.jpg")
+
+for i in range(30):
+
+    test_img = transform(img)
+
+    test_img.save(os.path.join("test", f"test_{i}.png"))
