@@ -41,19 +41,21 @@ def trim(img):
 
 #%%
 
-angle = 30
+angle = 25
 
 obj_transforms = transforms.Compose([
+    # transforms.Resize(450),
     transforms.RandomRotation(degrees=angle, expand=True),
     transforms.RandomPerspective(  # Performs Perspective transformation randomly with a given probability
-        distortion_scale=0.5,      # controls the degree of distortion and ranges from 0 to 1
+        distortion_scale=0.45,      # controls the degree of distortion and ranges from 0 to 1
         p=1                        # probability of the image being perspectively transformed
     ),
     transforms.RandomHorizontalFlip(),
+    # transforms.CenterCrop(350),
     transforms.ColorJitter(
         brightness=0.2,  # 0.3
-        contrast=0.3,  #
-        saturation=0.3
+        contrast=0.2,  #
+        saturation=0.2
     )
 ])
 
@@ -67,7 +69,7 @@ bg_transforms = transforms.Compose([
 
 
 def remove_bg(input_img):
-    threshold = 250
+    threshold = 253
 
     input_img = convert_to_rgb(input_img)
 
@@ -99,12 +101,13 @@ def transform(input_img):
     return input_img
 
 
-img = Image.open("images_source/200767/90060143_lmmarket_00.jpg")
+img = Image.open("images_source/200767/504735_petrovich_11.jpg")
 
 bg = Image.open("backgrounds/D2115_158_005_1200.jpg")
 
 for i in range(30):
 
     test_img = transform(img)
+    # test_img = obj_transforms(img)
 
     test_img.save(os.path.join("test", f"test_{i}.png"))
