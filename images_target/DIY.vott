@@ -1,0 +1,65 @@
+{
+    "name": "DIY",
+    "securityToken": "DIY Token",
+    "sourceConnection": {
+        "name": "Source",
+        "providerType": "localFileSystemProxy",
+        "providerOptions": {
+            "encrypted": "eyJjaXBoZXJ0ZXh0IjoiOGY0MmMwNjI3ZDU4NzVmOGQzZTFkMzA4YjYzNTM3ZTQyMjVkMzZmMGZkMmI5YzBhMTg0MmU2YzEyMGUxY2VmMzFlYWQyNTVjY2YyNTZlNGI5YWU0NTY1NDZjYjViNGZjMmQ0NDIzMzVlNWU1OWMyOTkwNGFiYjNlYmUxMzc4YzlmMDRmMzhmZDU5YTI5N2E2MWNhZTc3ZGUzNzAxNThkMSIsIml2IjoiNWUyZDdjMWI2YWY1YmZhZGJhZjAwZjUxNmE2YjVjZTM5ZDE1MmFiY2FlZTg2YWNjIn0="
+        },
+        "id": "HWHqlYUub"
+    },
+    "targetConnection": {
+        "name": "Target",
+        "providerType": "localFileSystemProxy",
+        "providerOptions": {
+            "encrypted": "eyJjaXBoZXJ0ZXh0IjoiZWU0ZmQwZGUyMjY3NzA1YjRiZWVhZWJjYzdlNjgyMGM4NThkMDBkYmRiMTUwNzg5NjZlOWJmZTE5NmM5ZGYzOWFkMWIzYzY4N2FmMzExZjBiNGUxNjg3ODAxMDY2N2IxZjQ4MzllOGUxNDEzNTYxYzRkZmU4NDk5NGFmOGY1NzM0YjM3ZTg1NzM4NThmNGMxM2UyOGI0ODg1NGY2NTVlZSIsIml2IjoiYzhhNGQ1ZWVhNWE5MGJiZGQwMmQyZjE4YWFkMTc5ZDRhY2Q0NmRjZDk5Mjg3ODRjIn0="
+        },
+        "id": "93phwRmHq"
+    },
+    "videoSettings": {
+        "frameExtractionRate": 15
+    },
+    "tags": [
+        {
+            "name": "ramka",
+            "color": "#5db300"
+        },
+        {
+            "name": "vasa",
+            "color": "#e81123"
+        },
+        {
+            "name": "divan",
+            "color": "#6917aa"
+        }
+    ],
+    "id": "DR0dA7ryB",
+    "activeLearningSettings": {
+        "autoDetect": false,
+        "predictTag": true,
+        "modelPathType": "coco"
+    },
+    "exportFormat": {
+        "providerType": "csv",
+        "providerOptions": {
+            "encrypted": "eyJjaXBoZXJ0ZXh0IjoiZmY5NzY3ZDZmNjNiNjYwY2Y1Y2EyZDM0YWU3MDU5NTZlMjBlMDZlZjFjZGRiMzRjMDIwOWEwM2IzNDI4Mzk4YjBiMjE2YjlkMTI3YWNlMzNiNDA2NDY2NzQ5MGRjMzljIiwiaXYiOiI0MmVkNjM5ZmNkNjdiNTY0OTNkYWQyMGFiNTc1MTZmMjY3ZmRmNzQxYWI2OGQ2NTUifQ=="
+        }
+    },
+    "version": "2.1.0",
+    "lastVisitedAssetId": "f53d8133cb8256834817e65f65253244",
+    "assets": {
+        "f53d8133cb8256834817e65f65253244": {
+            "format": "jpg",
+            "id": "f53d8133cb8256834817e65f65253244",
+            "name": "81948905.jpg",
+            "path": "file:C:/workspace/ObjectDetectionDataGeneration/images_source/81948905.jpg",
+            "size": {
+                "width": 500,
+                "height": 500
+            },
+            "state": 1,
+            "type": 1
+        }
+    }
+}
